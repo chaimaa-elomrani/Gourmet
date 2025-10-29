@@ -280,6 +280,15 @@
         }
       }
 
+      document.getElementById('nextWeek').addEventListener('click', () => {
+        weekStart.setDate(weekStart.getDate() + 7);
+        renderWeekHeader();
+      })
+
+      document.getElementById('prevWeek').addEventListener('click', () => {
+        weekStart.setDate(weekStart.getDate() - 7);
+        renderWeekHeader();
+      })
 
       document.getElementById("addEventBtn").addEventListener("click", () => {
         modal.classList.remove("hidden");
@@ -296,7 +305,7 @@
           document.getElementById("eventForm").reset();
         }
       });
-
+    
 
       renderHours();      
       renderWeekHeader();
