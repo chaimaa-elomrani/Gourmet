@@ -247,6 +247,61 @@
            <div class="text-2xl font-semibold ${isToday ? 'text-white bg-blue-500 rounded-full w-12 h-12 flex items-center justify-center mx-auto mt-1' : 'text-gray-800 mt-1'}">${date.getDate()}</div>
            `
         }); 
+
+        const endDate = new Date(weekDates[6]);
+        document.getElementById('weekRange').textContent = 
+        ` ${monthNames[weekDates[0].getMonth()]} ${weekDates[0].getDate()} - ${monthNames[endDate.getMonth()]} ${endDate.getDate()} ${weekDates[0].getFullYear()}`;
       };
 
 
+      function renderHours(){
+        const calendarBody = document.getElementById('calendarBody');
+        calendarBody.innerHTML = ' '; 
+
+        for(let h = 0 ; h<24 ; h++){
+            const row = document.createElement('tr');
+            const hours = document.createElement('td'); 
+            hours.className = 'border border-gray-200 p-2 text-xs text-gray-500 font-medium bg-gray-50';
+
+            const displayHour = h === 0 ? 12 : h>12 ? h-12 : h;
+            const ampm = h < 12 ? "AM": "PM";
+
+            hours.textContent = `${displayHour} ${ampm}`;
+            row.appendChild(hours); 
+
+
+            for(let d =0 ; d<7; d++){
+                const cell = document.createElement('td');
+                cell.className = 'border border-gray-200 h-16 hover:bg-gray-50 transition duration-150';
+                row.appendChild(cell);
+            }
+
+            calendarBody.appendChild(row);
+        }
+      }
+
+
+      document.getElementById("addEventBtn").addEventListener("click", () => {
+        modal.classList.remove("hidden");
+      });
+
+      document.getElementById("cancelBtn").addEventListener("click", () => {
+        modal.classList.add("hidden");
+        document.getElementById("eventForm").reset();
+      });
+
+      modal.addEventListener("click", (e) => {
+        if (e.target.id === "Modal") {
+          modal.classList.add("hidden");
+          document.getElementById("eventForm").reset();
+        }
+      });
+
+
+      renderHours();      
+      renderWeekHeader();
+    </script>
+
+   
+  </body>
+</html>
