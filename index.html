@@ -69,19 +69,39 @@
                 </button>
             </div>
 
-            <div class="grid grid-cols-5 bg-gray-100">
+            <div class="grid grid-cols-7 bg-gray-100">
                 <div class="p-4 text-center font-semibold text-gray-600 border-b border-gray-200">Monday</div>
                 <div class="p-4 text-center font-semibold text-gray-600 border-b border-gray-200">Tuesday</div>
                 <div class="p-4 text-center font-semibold text-gray-600 border-b border-gray-200">Wednesday</div>
                 <div class="p-4 text-center font-semibold text-gray-600 border-b border-gray-200">Thursday</div>
                 <div class="p-4 text-center font-semibold text-gray-600 border-b border-gray-200">Friday</div>
+                <div class="p-4 text-center font-semibold text-gray-600 border-b border-gray-200">Saturday</div>
+                <div class="p-4 text-center font-semibold text-gray-600 border-b border-gray-200">Sunday</div>
             </div>
 
-            <div id="calendarGrid" class="grid grid-cols-5">
+            <div id="calendarGrid" class="grid grid-cols-7">
             </div>
         </div>
     </div>
 
+   <script>
+     const calendarGrid = document.getElementById('calendarGrid');
+     const year = 2025;
+     const month = 9;
+     const monthDays = new Date(year, month + 1 ,0).getDate();
 
+     for (let day=1 ; day<= monthDays ; day++){
+        const dayBox = document.createElement("div");
+        dayBox.className = 'min-h-32 p-3 border border-gray-200 hover:bg-gray-50 transition duration-150';
+        dayBox.innerHTML = `<div class="text-gray-800 font-medium">${day}</div>`;
+
+        dayBox.dataset.date = `${year}-${month+1}-${day}`;
+
+        calendarGrid.appendChild(dayBox); 
+     }
+   </script>
+
+
+ 
 </body>
 </html>
