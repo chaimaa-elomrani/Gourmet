@@ -9,12 +9,14 @@
   <body class="bg-gray-50 p-4">
     <div class="mx-auto">
       <div class="mb-4 flex justify-start gap-[20%]">
-        <button
-          id="addEventBtn"
-          class="bg-black hover:bg-gray-600 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition duration-200"
-        >
-          + Add Event
-        </button>
+        <div class="mb-4">
+          <button
+            id="addEventBtn"
+            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition duration-200"
+          >
+            + Add Event
+          </button>
+        </div>
 
         <input
           type="text"
@@ -29,49 +31,82 @@
         class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
       >
         <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
-          <h2 class="text-2xl font-bold mb-4 text-gray-800">Add New Event</h2>
+          <h2 class="text-2xl font-bold mb-4 text-gray-800">
+            Add New Reservation
+          </h2>
           <form id="eventForm">
             <div class="mb-4">
               <label class="block text-gray-700 font-semibold mb-2"
-                >Event Title</label
+                >Client Name</label
               >
               <input
                 type="text"
-                id="eventTitle"
+                id="clientName"
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 required
               />
             </div>
-            <div class="mb-4">
-              <label class="block text-gray-700 font-semibold mb-2">Date</label>
-              <input
-                type="date"
-                id="eventDate"
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                required
-              />
-            </div>
+
             <div class="mb-4">
               <label class="block text-gray-700 font-semibold mb-2"
-                >Color</label
+                >Start Date</label
+              >
+              <input
+                type="date"
+                id="startDate"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                required
+              />
+            </div>
+
+            <div class="mb-4">
+              <label class="block text-gray-700 font-semibold mb-2"
+                >End Date</label
+              >
+              <input
+                type="date"
+                id="endDate"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                required
+              />
+            </div>
+
+            <div class="mb-4">
+              <label class="block text-gray-700 font-semibold mb-2"
+                >Number of Members</label
+              >
+              <input
+                type="number"
+                id="membersNumber"
+                min="1"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                required
+              />
+            </div>
+
+            <div class="mb-4">
+              <label class="block text-gray-700 font-semibold mb-2"
+                >Reservation Type</label
               >
               <select
-                id="eventColor"
+                id="reservationType"
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                required
               >
-                <option value="green">Green</option>
-                <option value="red">Red</option>
-                <option value="orange">Orange</option>
-                <option value="blue">Blue</option>
-                <option value="purple">Purple</option>
+                <option value="">Select type...</option>
+                <option value="vip">VIP</option>
+                <option value="sur-place">Sur Place</option>
+                <option value="anniversaire">Anniversaire</option>
+                <option value="work-meeting">Work Meeting</option>
               </select>
             </div>
+
             <div class="flex gap-3">
               <button
                 type="submit"
                 class="flex-1 bg-black hover:bg-gray-600 text-white font-semibold py-2 rounded-lg transition duration-200"
               >
-                Add Event
+                Add Reservation
               </button>
               <button
                 type="button"
@@ -85,103 +120,124 @@
         </div>
       </div>
 
-      <div class="bg-white rounded-lg overflow-hidden">
-        <div class="bg-black to-teal-500 p-4 flex items-center justify-between">
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <!-- Calendar Header with Navigation -->
+        <div class="bg-white p-4 flex items-center justify-between border-b">
           <button
-            id="prevMonth"
-            class="text-white text-2xl font-bold hover:bg-white hover:bg-opacity-20 w-10 h-10 rounded-lg transition duration-200"
+            id="prevWeek"
+            class="text-gray-600 text-2xl font-bold hover:bg-gray-100 w-10 h-10 rounded-lg transition duration-200"
           >
             ‹
           </button>
-          <h1 id="monthYear" class="text-white text-2xl font-semibold">
-            November 2018
+          <h1 id="weekRange" class="text-gray-800 text-xl font-semibold">
+            Week View
           </h1>
           <button
-            id="nextMonth"
-            class="text-white text-2xl font-bold hover:bg-white hover:bg-opacity-20 w-10 h-10 rounded-lg transition duration-200"
+            id="nextWeek"
+            class="text-gray-600 text-2xl font-bold hover:bg-gray-100 w-10 h-10 rounded-lg transition duration-200"
           >
             ›
           </button>
         </div>
 
-        <div class="grid grid-cols-7 bg-gray-100">
-          <div
-            class="p-4 text-center font-semibold text-gray-600 border-b border-gray-200"
-          >
-            Monday
-          </div>
-          <div
-            class="p-4 text-center font-semibold text-gray-600 border-b border-gray-200"
-          >
-            Tuesday
-          </div>
-          <div
-            class="p-4 text-center font-semibold text-gray-600 border-b border-gray-200"
-          >
-            Wednesday
-          </div>
-          <div
-            class="p-4 text-center font-semibold text-gray-600 border-b border-gray-200"
-          >
-            Thursday
-          </div>
-          <div
-            class="p-4 text-center font-semibold text-gray-600 border-b border-gray-200"
-          >
-            Friday
-          </div>
-          <div
-            class="p-4 text-center font-semibold text-gray-600 border-b border-gray-200"
-          >
-            Saturday
-          </div>
-          <div
-            class="p-4 text-center font-semibold text-gray-600 border-b border-gray-200"
-          >
-            Sunday
-          </div>
+        <!-- Week View -->
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse">
+            <thead>
+              <tr class="bg-gray-50">
+                <th
+                  class="border border-gray-200 p-3 text-left text-xs font-medium text-gray-500 w-24"
+                >
+                  <div>GMT+01</div>
+                </th>
+                <th
+                  id="day0"
+                  class="border border-gray-200 p-3 text-center min-w-32"
+                >
+                  <div class="text-xs font-medium text-gray-500">SUN</div>
+                  <div class="text-2xl font-semibold text-gray-800 mt-1">
+                    26
+                  </div>
+                </th>
+                <th
+                  id="day1"
+                  class="border border-gray-200 p-3 text-center min-w-32"
+                >
+                  <div class="text-xs font-medium text-gray-500">MON</div>
+                  <div class="text-2xl font-semibold text-gray-800 mt-1">
+                    27
+                  </div>
+                </th>
+                <th
+                  id="day2"
+                  class="border border-gray-200 p-3 text-center min-w-32"
+                >
+                  <div class="text-xs font-medium text-gray-500">TUE</div>
+                  <div class="text-2xl font-semibold text-gray-800 mt-1">
+                    28
+                  </div>
+                </th>
+                <th
+                  id="day3"
+                  class="border border-gray-200 p-3 text-center min-w-32"
+                >
+                  <div class="text-xs font-medium text-blue-500">WED</div>
+                  <div
+                    class="text-2xl font-semibold text-white bg-blue-500 rounded-full w-12 h-12 flex items-center justify-center mx-auto mt-1"
+                  >
+                    29
+                  </div>
+                </th>
+                <th
+                  id="day4"
+                  class="border border-gray-200 p-3 text-center min-w-32"
+                >
+                  <div class="text-xs font-medium text-gray-500">THU</div>
+                  <div class="text-2xl font-semibold text-gray-800 mt-1">
+                    30
+                  </div>
+                </th>
+                <th
+                  id="day5"
+                  class="border border-gray-200 p-3 text-center min-w-32"
+                >
+                  <div class="text-xs font-medium text-gray-500">FRI</div>
+                  <div class="text-2xl font-semibold text-gray-800 mt-1">
+                    31
+                  </div>
+                </th>
+                <th
+                  id="day6"
+                  class="border border-gray-200 p-3 text-center min-w-32"
+                >
+                  <div class="text-xs font-medium text-gray-500">SAT</div>
+                  <div class="text-2xl font-semibold text-gray-800 mt-1">1</div>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="calendarBody">
+              <!-- Time slots will be generated by JavaScript -->
+            </tbody>
+          </table>
         </div>
-
-        <div id="calendarGrid" class="grid grid-cols-7"></div>
       </div>
     </div>
 
     <script>
-      const calendarGrid = document.getElementById("calendarGrid");
-      const year = 2025;
-      const month = 9;
-      const monthDays = new Date(year, month + 1, 0).getDate();
+
       const modal = document.getElementById("Modal");
+      let weekStart = new Date(2025, 10, 29);
+      weekStart.setHours(0, 0, 0, 0);
+      const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December",];
+      const dayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
-      for (let day = 1; day <= monthDays; day++) {
-        const dayBox = document.createElement("div");
-        dayBox.className =
-          "min-h-32 p-3 border border-gray-200 hover:bg-gray-50 transition duration-150";
-        dayBox.innerHTML = `<div class="text-gray-800 font-medium">${day}</div>`;
-
-        dayBox.dataset.date = `${year}-${month + 1}-${day}`;
-
-        calendarGrid.appendChild(dayBox);
+      function renderWeekHeader(){
+        const weekDates = [];
+        for(let i =0 ; i<7 ; i++){
+            const date = new Date(weekStart);
+            date.setDate( weekStart.getDate()+i );
+            weekDates.push(date);
+        }
       }
 
-      document.getElementById("addEventBtn").addEventListener("click", () => {
-        modal.classList.remove("hidden");
-      });
-
-      document.getElementById("cancelBtn").addEventListener("click", () => {
-        modal.classList.add("hidden");
-        document.getElementById("eventForm").reset();
-      });
-
-
-      modal.addEventListener('click', (e)=>{
-        if(e.target.id === 'Modal'){
-            modal.classList.add('hidden');
-            document.getElementById("eventForm").reset();
-        }
-      })
-    </script>
-
-    
-  </body>
-</html>
+      
