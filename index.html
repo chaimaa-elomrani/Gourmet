@@ -28,85 +28,88 @@
 
       <div
         id="Modal"
-        class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+        class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto p-4"
       >
-        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
-          <h2 class="text-2xl font-bold mb-4 text-gray-800">
-            Add New Reservation
-          </h2>
+        <div
+          class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto"
+        >
+          <h2 class="text-2xl font-bold mb-4 text-gray-800">Add New Event</h2>
           <form id="eventForm">
             <div class="mb-4">
               <label class="block text-gray-700 font-semibold mb-2"
-                >Client Name</label
+                >Client name</label
               >
               <input
                 type="text"
                 id="clientName"
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
             </div>
-
             <div class="mb-4">
-              <label class="block text-gray-700 font-semibold mb-2"
-                >Start Date</label
-              >
+              <label class="block text-gray-700 font-semibold mb-2">Date</label>
               <input
                 type="date"
+                id="eventDate"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 font-semibold mb-2"
+                >Start Time</label
+              >
+              <input
+                type="time"
                 id="startDate"
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
             </div>
-
             <div class="mb-4">
               <label class="block text-gray-700 font-semibold mb-2"
-                >End Date</label
+                >End Time</label
               >
               <input
-                type="date"
+                type="time"
                 id="endDate"
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
             </div>
-
             <div class="mb-4">
               <label class="block text-gray-700 font-semibold mb-2"
-                >Number of Members</label
+                >Nombre de personne</label
               >
               <input
                 type="number"
-                id="membersNumber"
-                min="1"
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                id="members"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
             </div>
-
             <div class="mb-4">
               <label class="block text-gray-700 font-semibold mb-2"
-                >Reservation Type</label
+                >Type</label
               >
               <select
-                id="reservationType"
+                id="type"
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 required
               >
                 <option value="">Select type...</option>
-                <option value="vip">VIP</option>
-                <option value="sur-place">Sur Place</option>
-                <option value="anniversaire">Anniversaire</option>
-                <option value="work-meeting">Work Meeting</option>
+                <option value="vip">🔴VIP</option>
+                <option value="sur-place">🟢Sur Place</option>
+                <option value="anniversaire">🟠Anniversaire</option>
+                <option value="work-meeting">🔵Work Meeting</option>
               </select>
             </div>
-
             <div class="flex gap-3">
               <button
                 type="submit"
-                class="flex-1 bg-black hover:bg-gray-600 text-white font-semibold py-2 rounded-lg transition duration-200"
+                class="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg transition duration-200"
               >
-                Add Reservation
+                Add Event
               </button>
               <button
                 type="button"
@@ -121,7 +124,6 @@
       </div>
 
       <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-        <!-- Calendar Header with Navigation -->
         <div class="bg-white p-4 flex items-center justify-between border-b">
           <button
             id="prevWeek"
@@ -140,7 +142,6 @@
           </button>
         </div>
 
-        <!-- Week View -->
         <div class="overflow-x-auto">
           <table class="w-full border-collapse">
             <thead>
@@ -224,71 +225,94 @@
     </div>
 
     <script>
-
       const modal = document.getElementById("Modal");
+      const eventForm = document.getElementById('eventForm'); 
       let weekStart = new Date(2025, 10, 29);
       weekStart.setHours(0, 0, 0, 0);
-      const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December",];
+      const monthNames = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
       const dayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
-      function renderWeekHeader(){
+      function renderWeekHeader() {
         const weekDates = [];
-        for(let i =0 ; i<7 ; i++){
-            const date = new Date(weekStart);
-            date.setDate( weekStart.getDate()+i );
-            weekDates.push(date);
+        for (let i = 0; i < 7; i++) {
+          const date = new Date(weekStart);
+          date.setDate(weekStart.getDate() + i);
+          weekDates.push(date);
         }
 
         weekDates.forEach((date, index) => {
-           const header = document.getElementById(`day${index}`);
-           const isToday = date.toDateString() === new Date(2025, 10, 29).toDateString();
-           header.innerHTML = `
-           <div class="text-xs font-medium ${isToday ? 'text-blue-500' : 'text-gray-500'}">${dayNames[index]}</div>
-           <div class="text-2xl font-semibold ${isToday ? 'text-white bg-blue-500 rounded-full w-12 h-12 flex items-center justify-center mx-auto mt-1' : 'text-gray-800 mt-1'}">${date.getDate()}</div>
-           `
-        }); 
+          const header = document.getElementById(`day${index}`);
+          const isToday =
+            date.toDateString() === new Date(2025, 10, 29).toDateString();
+          header.innerHTML = `
+           <div class="text-xs font-medium ${
+             isToday ? "text-blue-500" : "text-gray-500"
+           }">${dayNames[index]}</div>
+           <div class="text-2xl font-semibold ${
+             isToday
+               ? "text-white bg-blue-500 rounded-full w-12 h-12 flex items-center justify-center mx-auto mt-1"
+               : "text-gray-800 mt-1"
+           }">${date.getDate()}</div>
+           `;
+        });
 
         const endDate = new Date(weekDates[6]);
-        document.getElementById('weekRange').textContent = 
-        ` ${monthNames[weekDates[0].getMonth()]} ${weekDates[0].getDate()} - ${monthNames[endDate.getMonth()]} ${endDate.getDate()} ${weekDates[0].getFullYear()}`;
-      };
+        document.getElementById("weekRange").textContent = ` ${
+          monthNames[weekDates[0].getMonth()]
+        } ${weekDates[0].getDate()} - ${
+          monthNames[endDate.getMonth()]
+        } ${endDate.getDate()} ${weekDates[0].getFullYear()}`;
+      }
 
+      function renderHours() {
+        const calendarBody = document.getElementById("calendarBody");
+        calendarBody.innerHTML = " ";
 
-      function renderHours(){
-        const calendarBody = document.getElementById('calendarBody');
-        calendarBody.innerHTML = ' '; 
+        for (let h = 0; h < 24; h++) {
+          const row = document.createElement("tr");
+          const hours = document.createElement("td");
+          hours.className =
+            "border border-gray-200 p-2 text-xs text-gray-500 font-medium bg-gray-50";
 
-        for(let h = 0 ; h<24 ; h++){
-            const row = document.createElement('tr');
-            const hours = document.createElement('td'); 
-            hours.className = 'border border-gray-200 p-2 text-xs text-gray-500 font-medium bg-gray-50';
+          const displayHour = h === 0 ? 12 : h > 12 ? h - 12 : h;
+          const ampm = h < 12 ? "AM" : "PM";
 
-            const displayHour = h === 0 ? 12 : h>12 ? h-12 : h;
-            const ampm = h < 12 ? "AM": "PM";
+          hours.textContent = `${displayHour} ${ampm}`;
+          row.appendChild(hours);
 
-            hours.textContent = `${displayHour} ${ampm}`;
-            row.appendChild(hours); 
+          for (let d = 0; d < 7; d++) {
+            const cell = document.createElement("td");
+            cell.className =
+              "border border-gray-200 h-16 hover:bg-gray-50 transition duration-150";
+            row.appendChild(cell);
+          }
 
-
-            for(let d =0 ; d<7; d++){
-                const cell = document.createElement('td');
-                cell.className = 'border border-gray-200 h-16 hover:bg-gray-50 transition duration-150';
-                row.appendChild(cell);
-            }
-
-            calendarBody.appendChild(row);
+          calendarBody.appendChild(row);
         }
       }
 
-      document.getElementById('nextWeek').addEventListener('click', () => {
+      document.getElementById("nextWeek").addEventListener("click", () => {
         weekStart.setDate(weekStart.getDate() + 7);
         renderWeekHeader();
-      })
+      });
 
-      document.getElementById('prevWeek').addEventListener('click', () => {
+      document.getElementById("prevWeek").addEventListener("click", () => {
         weekStart.setDate(weekStart.getDate() - 7);
         renderWeekHeader();
-      })
+      });
 
       document.getElementById("addEventBtn").addEventListener("click", () => {
         modal.classList.remove("hidden");
@@ -305,12 +329,34 @@
           document.getElementById("eventForm").reset();
         }
       });
-    
 
-      renderHours();      
+      //add functionsk
+      function addEvent(event){
+        let events = JSON.parse(localStorage.getItem("events")) || []; // json.parse turns a string to a real object in js 
+        events.push(event); 
+        localStorage.setItem(events , JSON.stringify(events)); 
+        console.log('data saved successfully'); 
+      }
+       
+      eventForm.addEventListener('submit', function(e){
+        e.preventDefault(); 
+       const event = {
+            client: document.getElementById("clientName").value,
+            eventDate: document.getElementById("eventDate").value,
+            startDate: document.getElementById("startDate").value,
+            endDate: document.getElementById("endDate").value,
+            members: document.getElementById("members").value,
+            type : document.getElementById("type").value,
+          };
+                               
+        addEvent(event); 
+        eventForm.classList.add('hidden');
+        eventForm.reset();
+
+      } );
+
+      renderHours();
       renderWeekHeader();
     </script>
-
-   
   </body>
 </html>
