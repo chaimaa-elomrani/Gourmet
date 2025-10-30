@@ -289,14 +289,15 @@
 
           const displayHour = h === 0 ? 12 : h > 12 ? h - 12 : h;
           const ampm = h < 12 ? "AM" : "PM";
-
           hours.textContent = `${displayHour} ${ampm}`;
           row.appendChild(hours);
 
           for (let d = 0; d < 7; d++) {
             const cell = document.createElement("td");
             cell.className =
-              "border border-gray-200 h-16 hover:bg-gray-50 transition duration-150";
+              "border border-gray-200 h-16 hover:bg-gray-50 transition duration-150 relative"; // ADDED relative
+            cell.setAttribute('data-day', d);
+            cell.setAttribute('data-hour', h);
             row.appendChild(cell);
           }
 
@@ -307,11 +308,13 @@
       document.getElementById("nextWeek").addEventListener("click", () => {
         weekStart.setDate(weekStart.getDate() + 7);
         renderWeekHeader();
+        displayEvents();
       });
 
       document.getElementById("prevWeek").addEventListener("click", () => {
         weekStart.setDate(weekStart.getDate() - 7);
         renderWeekHeader();
+        displayEvents(); 
       });
 
       document.getElementById("addEventBtn").addEventListener("click", () => {
@@ -330,33 +333,74 @@
         }
       });
 
-      //add functionsk
       function addEvent(event){
-        let events = JSON.parse(localStorage.getItem("events")) || []; // json.parse turns a string to a real object in js 
+        let events = JSON.parse(localStorage.getItem("events")) || [];
         events.push(event); 
-        localStorage.setItem(events , JSON.stringify(events)); 
+        localStorage.setItem("events" , JSON.stringify(events)); 
         console.log('data saved successfully'); 
       }
        
       eventForm.addEventListener('submit', function(e){
         e.preventDefault(); 
-       const event = {
+
+        const eventDateValue = document.getElementById("eventDate").value;
+        const event = {
             client: document.getElementById("clientName").value,
-            eventDate: document.getElementById("eventDate").value,
+            eventDate: eventDateValue,  
             startDate: document.getElementById("startDate").value,
             endDate: document.getElementById("endDate").value,
             members: document.getElementById("members").value,
-            type : document.getElementById("type").value,
-          };
+            type: document.getElementById("type").value,
+            dayIndex: new Date(eventDateValue).getDay() 
+        };
                                
         addEvent(event); 
-        eventForm.classList.add('hidden');
+        displayEvents();
+        modal.classList.add('hidden');
         eventForm.reset();
+      });
 
-      } );
+      function getTypeColor(type) {
+        const colors = {
+          'vip': 'bg-red-500',
+          'sur-place': 'bg-green-500',
+          'anniversaire': 'bg-orange-500',
+          'work-meeting': 'bg-blue-500'
+        };
+        return colors[type] || 'bg-blue-500';
+      }
 
+      function displayEvents(){
+        document.querySelectorAll('.event-item').forEach(el => el.remove());
+        
+        const events = JSON.parse(localStorage.getItem("events")) || [];
+        console.log('Displaying events:', events);
+        
+        events.forEach(event => {   
+            const eventDate = new Date(event.eventDate); // FIXED: was e.date
+            const startHour = parseInt(event.startDate.split(":")[0]); // FIXED: was e.startDate
+            
+            const dayOfWeek = eventDate.getDay(); 
+            
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekStart.getDate() + 6);
+            
+            if (eventDate >= weekStart && eventDate <= weekEnd) {
+                const cell = document.querySelector(`[data-day="${dayOfWeek}"][data-hour="${startHour}"]`);
+
+                if(cell){
+                    const eventDiv = document.createElement('div');
+                    eventDiv.className = `event-item absolute inset-1 ${getTypeColor(event.type)} text-white text-xs p-1 rounded shadow overflow-hidden`;
+                    eventDiv.textContent = `${event.client} (${event.type})`;
+                    cell.appendChild(eventDiv);
+                }
+            }
+        });
+      }
+      
       renderHours();
       renderWeekHeader();
+      displayEvents();
     </script>
   </body>
 </html>
