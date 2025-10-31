@@ -187,8 +187,9 @@ function displayEvents() {
         event.draggable('true'); 
         eventDiv.setAttribute('data-event-ud', event.id); 
 
-    
+        eventDiv.textContent = `${event.client}`; 
 
+     
         cell.appendChild(eventDiv);
       }
     }
