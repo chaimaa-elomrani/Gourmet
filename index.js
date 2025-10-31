@@ -415,6 +415,11 @@ function handleDrop(e) {
 
     const durationHours = oldEndHour - oldStartHour;
   const durationMinutes = oldEndMinute - oldStartMinute;
+
+
+    const newStartHour = newHour;
+  let newEndHour = newHour + durationHours;
+  let newEndMinute = oldStartMinute + durationMinutes;
 }
 renderHours();
 renderWeekHeader();
