@@ -437,6 +437,12 @@ function handleDrop(e) {
     endDate: formatTime(newEndHour, newEndMinute),
     dayIndex: newDay
   };
+
+   localStorage.setItem("events", JSON.stringify(events));
+  targetCell.classList.remove('drag-over');
+  displayEvents();
+  
+  return false;
 }
 renderHours();
 renderWeekHeader();
