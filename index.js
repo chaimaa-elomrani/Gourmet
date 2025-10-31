@@ -396,7 +396,11 @@ function handleDrop(e) {
   }
 
   let events = JSON.parse(localStorage.getItem("events")) || [];
-  const eventIndex = events.findIndex((e) => e.id === parseInt(draggedEventId));
+  const eventIndex = events.findIndex((e) => e.id === parseInt(dragedEventId));
+  if (eventIndex === -1) {
+    targetCell.classList.remove('drag-over');
+    return false;
+  }
 }
 renderHours();
 renderWeekHeader();
