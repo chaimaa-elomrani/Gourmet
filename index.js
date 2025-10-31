@@ -389,7 +389,8 @@ function handleDrop(e) {
   const newDay = parseInt(targetCell.getAttribute('data-day')); 
 
     if (newDay === 0 || newDay === 6) {
-   
+    alert("You cannot move events to Sunday or Saturday.");
+
   }
 }
 renderHours();
