@@ -352,7 +352,8 @@ function deleteEvent(eventId) {
 let dragedEventId = null ; 
 function handleDragstart(e){
     dragedEventId = e.target.getAttribute('data-event-id'); 
-    
+      e.target.style.opacity = '0.5';
+
 }
 
 
