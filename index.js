@@ -412,6 +412,9 @@ function handleDrop(e) {
   const oldEndHour = parseInt(oldEndTime[0]);
   const oldStartMinute = parseInt(oldStartTime[1]);
   const oldEndMinute = parseInt(oldEndTime[1]);
+
+    const durationHours = oldEndHour - oldStartHour;
+  const durationMinutes = oldEndMinute - oldStartMinute;
 }
 renderHours();
 renderWeekHeader();
