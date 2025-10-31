@@ -383,16 +383,19 @@ function handleDragLeave(e) {
 
 function handleDrop(e) {
   e.preventDefault();
-  e.stopPropagation();parseInt(targetCell.getAttribute('data-day')); 
+  e.stopPropagation();
+  parseInt(targetCell.getAttribute("data-day"));
 
-  const targetCell = e.currentTarget; 
-  const newDay = parseInt(targetCell.getAttribute('data-day')); 
+  const targetCell = e.currentTarget;
+  const newDay = parseInt(targetCell.getAttribute("data-day"));
 
-    if (newDay === 0 || newDay === 6) {
+  if (newDay === 0 || newDay === 6) {
     alert("You cannot move events to Sunday or Saturday.");
-    targetCell.classList.remove('drag-over');
+    targetCell.classList.remove("drag-over");
     return false;
   }
+
+  let events = JSON.parse(localStorage.getItem("events")) || [];
 }
 renderHours();
 renderWeekHeader();
