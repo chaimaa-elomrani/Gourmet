@@ -384,6 +384,8 @@ function handleDragLeave(e) {
 function handleDrop(e) {
   e.preventDefault();
   e.stopPropagation();
+
+  const targetCell = e.currentTarget; 
 }
 renderHours();
 renderWeekHeader();
