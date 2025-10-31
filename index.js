@@ -429,6 +429,14 @@ function handleDrop(e) {
   const formatTime = (h, m) => {
     return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
   };
+
+  events[eventIndex] = {
+    ...event,
+    eventDate: newDate.toISOString().split('T')[0],
+    startDate: formatTime(newStartHour, oldStartMinute),
+    endDate: formatTime(newEndHour, newEndMinute),
+    dayIndex: newDay
+  };
 }
 renderHours();
 renderWeekHeader();
