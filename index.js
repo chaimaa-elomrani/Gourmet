@@ -73,6 +73,8 @@ function renderHours() {
         "border border-gray-200 h-12 sm:h-16 hover:bg-gray-50 transition duration-150 relative";
       cell.setAttribute("data-day", d);
       cell.setAttribute("data-hour", h);
+
+      cell.addEventListener('dragover', handleDragstart);
       row.appendChild(cell);
     }
 
