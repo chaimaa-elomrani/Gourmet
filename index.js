@@ -74,10 +74,10 @@ function renderHours() {
       cell.setAttribute("data-day", d);
       cell.setAttribute("data-hour", h);
 
-      cell.addEventListener('dragover', handleDragOver);
-      cell.addEventListener('drop', handleDrop);
-      cell.addEventListener('dragenter', handleDragEnter);
-      cell.addEventListener('dragLeave', handleDragLeave);
+      cell.addEventListener("dragover", handleDragOver);
+      cell.addEventListener("drop", handleDrop);
+      cell.addEventListener("dragenter", handleDragEnter);
+      cell.addEventListener("dragLeave", handleDragLeave);
 
       row.appendChild(cell);
     }
@@ -190,13 +190,13 @@ function displayEvents() {
           showDetails(event);
         });
 
-        event.draggable('true'); 
-        eventDiv.setAttribute('data-event-ud', event.id); 
+        event.draggable("true");
+        eventDiv.setAttribute("data-event-ud", event.id);
 
-        eventDiv.textContent = `${event.client}`; 
+        eventDiv.textContent = `${event.client}`;
 
-        eventDiv.addEventListener('dragstart', handleDragstart);
-        eventDiv.addEventListener('dragend', handleDragsEnd);
+        eventDiv.addEventListener("dragstart", handleDragstart);
+        eventDiv.addEventListener("dragend", handleDragsEnd);
 
         cell.appendChild(eventDiv);
       }
@@ -347,33 +347,32 @@ function deleteEvent(eventId) {
   console.log("Event deleted successfully!");
 }
 
-
-// dragganddrop 
-let dragedEventId = null ; 
-function handleDragstart(e){
-    dragedEventId = e.target.getAttribute('data-event-id'); 
-      e.target.style.opacity = '0.5';
-      e.dataTransfer.effectAllowed = 'move'; 
+// dragganddrop
+let dragedEventId = null;
+function handleDragstart(e) {
+  dragedEventId = e.target.getAttribute("data-event-id");
+  e.target.style.opacity = "0.5";
+  e.dataTransfer.effectAllowed = "move";
 }
 
-function handleDragsEnd(e){
-  e.target.style.opacity = '1';
-  document.querySelectorAll('.drag-over').forEach(cell =>{
-    cell.classList.remove('drag-over');
+function handleDragsEnd(e) {
+  e.target.style.opacity = "1";
+  document.querySelectorAll(".drag-over").forEach((cell) => {
+    cell.classList.remove("drag-over");
   });
 }
 
-function handleDragOver(e){
-    e.preventDefault(); 
-    e.dataTransfer.dropEffect = 'move'; 
-    return false; 
+function handleDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = "move";
+  return false;
 }
 
-function handleDragEnter(e){
-      const dayIndex = parseInt(e.currentTarget.getAttribute('data-day'));
-
+function handleDragEnter(e) {
+  const dayIndex = parseInt(e.currentTarget.getAttribute("data-day"));
+    if (dayIndex === 0 || dayIndex === 6) {
+    }
 }
-
 
 renderHours();
 renderWeekHeader();
