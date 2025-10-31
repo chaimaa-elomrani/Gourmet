@@ -73,19 +73,18 @@ function renderHours() {
         "border border-gray-200 h-12 sm:h-16 hover:bg-gray-50 transition duration-150 relative";
       cell.setAttribute("data-day", d);
       cell.setAttribute("data-hour", h);
-
-      cell.addEventListener("dragover", handleDragOver);
-      cell.addEventListener("drop", handleDrop);
-      cell.addEventListener("dragenter", handleDragEnter);
-      cell.addEventListener("dragLeave", handleDragLeave);
-
+      
+      cell.addEventListener('dragover', handleDragOver);
+      cell.addEventListener('drop', handleDrop);
+      cell.addEventListener('dragenter', handleDragEnter);
+      cell.addEventListener('dragleave', handleDragLeave);
+      
       row.appendChild(cell);
     }
 
     calendarBody.appendChild(row);
   }
 }
-
 document.getElementById("nextWeek").addEventListener("click", () => {
   weekStart.setDate(weekStart.getDate() + 7);
   renderWeekHeader();
@@ -166,7 +165,6 @@ function displayEvents() {
   events.forEach((event) => {
     const eventDate = new Date(event.eventDate);
     const startHour = parseInt(event.startDate.split(":")[0]);
-
     const dayOfWeek = eventDate.getDay();
 
     const weekEnd = new Date(weekStart);
@@ -184,20 +182,21 @@ function displayEvents() {
         const eventDiv = document.createElement("div");
         eventDiv.className = `event-item absolute inset-1 ${getTypeColor(
           event.type
-        )} text-white text-[10px] sm:text-xs p-1 rounded shadow overflow-hidden cursor-pointer hover:opacity-90`;
+        )} text-white text-[10px] sm:text-xs p-1 rounded shadow overflow-hidden cursor-move hover:opacity-90`;
+        
+        eventDiv.draggable = true;
+        eventDiv.setAttribute('data-event-id', event.id);
+        
         eventDiv.textContent = `${event.client}`;
+        
+        // Add drag event listeners
+        eventDiv.addEventListener('dragstart', handleDragStart);
+        eventDiv.addEventListener('dragend', handleDragEnd);
+        
         eventDiv.addEventListener("click", () => {
           showDetails(event);
         });
-
-        event.draggable("true");
-        eventDiv.setAttribute("data-event-ud", event.id);
-
-        eventDiv.textContent = `${event.client}`;
-
-        eventDiv.addEventListener("dragstart", handleDragstart);
-        eventDiv.addEventListener("dragend", handleDragsEnd);
-
+        
         cell.appendChild(eventDiv);
       }
     }
@@ -348,88 +347,91 @@ function deleteEvent(eventId) {
 }
 
 // dragganddrop
-let dragedEventId = null;
-function handleDragstart(e) {
-  dragedEventId = e.target.getAttribute("data-event-id");
-  e.target.style.opacity = "0.5";
-  e.dataTransfer.effectAllowed = "move";
+let draggedEventId = null;
+
+function handleDragStart(e) {
+  draggedEventId = e.target.getAttribute('data-event-id');
+  e.target.style.opacity = '0.5';
+  e.dataTransfer.effectAllowed = 'move';
 }
 
-function handleDragsEnd(e) {
-  e.target.style.opacity = "1";
-  document.querySelectorAll(".drag-over").forEach((cell) => {
-    cell.classList.remove("drag-over");
+function handleDragEnd(e) {
+  e.target.style.opacity = '1';
+  document.querySelectorAll('.drag-over').forEach(cell => {
+    cell.classList.remove('drag-over');
   });
 }
 
 function handleDragOver(e) {
-  e.preventDefault();
-  e.dataTransfer.dropEffect = "move";
+  e.preventDefault(); 
+  e.dataTransfer.dropEffect = 'move';
   return false;
 }
 
 function handleDragEnter(e) {
-  const dayIndex = parseInt(e.currentTarget.getAttribute("data-day"));
+  const dayIndex = parseInt(e.currentTarget.getAttribute('data-day'));
   if (dayIndex === 0 || dayIndex === 6) {
-    e.dataTransfer.dropEffect = "none";
+    e.dataTransfer.dropEffect = 'none';
     return;
   }
-  e.currentTarget.classList.add("drag-over");
+  
+  e.currentTarget.classList.add('drag-over');
 }
 
 function handleDragLeave(e) {
-  e.currentTarget.classList.remove("drag-over");
+  e.currentTarget.classList.remove('drag-over');
 }
 
 function handleDrop(e) {
   e.preventDefault();
   e.stopPropagation();
-  parseInt(targetCell.getAttribute("data-day"));
-
+  
   const targetCell = e.currentTarget;
-  const newDay = parseInt(targetCell.getAttribute("data-day"));
-
+  const newDay = parseInt(targetCell.getAttribute('data-day'));
+  const newHour = parseInt(targetCell.getAttribute('data-hour'));
+  
   if (newDay === 0 || newDay === 6) {
     alert("You cannot move events to Sunday or Saturday.");
-    targetCell.classList.remove("drag-over");
+    targetCell.classList.remove('drag-over');
     return false;
   }
-
+  
   let events = JSON.parse(localStorage.getItem("events")) || [];
-  const eventIndex = events.findIndex((e) => e.id === parseInt(dragedEventId));
+  const eventIndex = events.findIndex(e => e.id === parseInt(draggedEventId));
+  
   if (eventIndex === -1) {
-    targetCell.classList.remove("drag-over");
+    targetCell.classList.remove('drag-over');
     return false;
   }
-
+  
   const event = events[eventIndex];
+  
   const newDate = new Date(weekStart);
   newDate.setDate(weekStart.getDate() + newDay);
-
-  const oldStartTime = event.startDate.split(":");
-  const oldEndTime = event.endDate.split(":");
+  
+  const oldStartTime = event.startDate.split(':');
+  const oldEndTime = event.endDate.split(':');
   const oldStartHour = parseInt(oldStartTime[0]);
   const oldEndHour = parseInt(oldEndTime[0]);
   const oldStartMinute = parseInt(oldStartTime[1]);
   const oldEndMinute = parseInt(oldEndTime[1]);
-
-    const durationHours = oldEndHour - oldStartHour;
+  
+  const durationHours = oldEndHour - oldStartHour;
   const durationMinutes = oldEndMinute - oldStartMinute;
-
-
-    const newStartHour = newHour;
+  
+  const newStartHour = newHour;
   let newEndHour = newHour + durationHours;
   let newEndMinute = oldStartMinute + durationMinutes;
-
+  
   if (newEndMinute >= 60) {
     newEndHour += 1;
     newEndMinute -= 60;
   }
-
+  
   const formatTime = (h, m) => {
     return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
   };
-
+  
   events[eventIndex] = {
     ...event,
     eventDate: newDate.toISOString().split('T')[0],
@@ -437,13 +439,14 @@ function handleDrop(e) {
     endDate: formatTime(newEndHour, newEndMinute),
     dayIndex: newDay
   };
-
-   localStorage.setItem("events", JSON.stringify(events));
+  
+  localStorage.setItem("events", JSON.stringify(events));
   targetCell.classList.remove('drag-over');
   displayEvents();
   
   return false;
 }
+
 renderHours();
 renderWeekHeader();
 displayEvents();
