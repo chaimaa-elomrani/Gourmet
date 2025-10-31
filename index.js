@@ -189,7 +189,8 @@ function displayEvents() {
 
         eventDiv.textContent = `${event.client}`; 
 
-     
+        eventDiv.addEventListener('dragstart', handleDragstart);
+
         cell.appendChild(eventDiv);
       }
     }
