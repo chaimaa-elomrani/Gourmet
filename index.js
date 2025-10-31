@@ -452,7 +452,8 @@ function handleDrop(e) {
 }
 
 document.getElementById('searchInput').addEventListener('input', (e) => {
- 
+  const searchValue = e.target.value.toLowerCase().trim();
+  
 });
 
 
