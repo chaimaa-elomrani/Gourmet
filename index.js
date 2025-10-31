@@ -17,7 +17,7 @@ const monthNames = [
   "December",
 ];
 const dayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-
+const workDays = [1,2,3,4,5];
 function renderWeekHeader() {
   const weekDates = [];
   for (let i = 0; i < 7; i++) {
@@ -26,7 +26,8 @@ function renderWeekHeader() {
     weekDates.push(date);
   }
 
-  weekDates.forEach((date, index) => {
+  workDays.forEach((date, index) => {
+    const dates = weekDates[dayIndex]; 
     const header = document.getElementById(`day${index}`);
     const isToday =
       date.toDateString() === new Date(2025, 10, 29).toDateString();
@@ -42,7 +43,8 @@ function renderWeekHeader() {
            `;
   });
 
-  const endDate = new Date(weekDates[6]);
+  const endDate = new Date(weekDates[5]);
+  const startDate = new Date(weekDates[1])
   document.getElementById("weekRange").textContent = ` ${
     monthNames[weekDates[0].getMonth()]
   } ${weekDates[0].getDate()} - ${
