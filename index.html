@@ -6,7 +6,18 @@
     <title>Calendar</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+  .drag-over {
+    background-color: #dbeafe !important;
+    border: 2px dashed #3b82f6 !important;
+  }
   
+  .event-item {
+    cursor: move;
+  }
+  
+  .event-item:active {
+    cursor: grabbing;
+  }
 </style>
 </head>
   <body class="bg-gray-50 p-2 sm:p-4">

@@ -185,10 +185,9 @@ function displayEvents() {
         });
 
         event.draggable('true'); 
-       
+        eventDiv.setAttribute('data-event-ud', event.id); 
 
-        eventDiv.addEventListener('dragstart', handleDragstart);
-        eventDiv.addEventListener('dragend', handleDragsEnd);
+    
 
         cell.appendChild(eventDiv);
       }
