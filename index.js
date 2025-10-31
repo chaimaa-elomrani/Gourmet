@@ -396,6 +396,7 @@ function handleDrop(e) {
   }
 
   let events = JSON.parse(localStorage.getItem("events")) || [];
+  const eventIndex = events.findIndex((e) => e.id === parseInt(draggedEventId));
 }
 renderHours();
 renderWeekHeader();
