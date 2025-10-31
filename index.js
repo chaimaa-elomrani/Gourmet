@@ -183,6 +183,13 @@ function displayEvents() {
         eventDiv.addEventListener("click", () => {
           showDetails(event);
         });
+
+        event.draggable('true'); 
+       
+
+        eventDiv.addEventListener('dragstart', handleDragstart);
+        eventDiv.addEventListener('dragend', handleDragsEnd);
+
         cell.appendChild(eventDiv);
       }
     }
@@ -331,6 +338,7 @@ function deleteEvent(eventId) {
   localStorage.setItem("events", JSON.stringify(events));
   console.log("Event deleted successfully!");
 }
+
 
 renderHours();
 renderWeekHeader();
