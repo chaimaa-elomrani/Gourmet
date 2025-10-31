@@ -425,6 +425,10 @@ function handleDrop(e) {
     newEndHour += 1;
     newEndMinute -= 60;
   }
+
+  const formatTime = (h, m) => {
+    return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+  };
 }
 renderHours();
 renderWeekHeader();
