@@ -403,6 +403,8 @@ function handleDrop(e) {
   }
 
   const event = events[eventIndex]; 
+  const newDate = new Date(weekStart);
+  newDate.setDate(weekStart.getDate() + newDay);
 }
 renderHours();
 renderWeekHeader();
