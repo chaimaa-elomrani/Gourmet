@@ -348,6 +348,10 @@ function deleteEvent(eventId) {
 }
 
 
+// dragganddrop 
+let dragedEventId = null ; 
+
+
 renderHours();
 renderWeekHeader();
 displayEvents();
