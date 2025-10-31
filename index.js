@@ -398,13 +398,20 @@ function handleDrop(e) {
   let events = JSON.parse(localStorage.getItem("events")) || [];
   const eventIndex = events.findIndex((e) => e.id === parseInt(dragedEventId));
   if (eventIndex === -1) {
-    targetCell.classList.remove('drag-over');
+    targetCell.classList.remove("drag-over");
     return false;
   }
 
-  const event = events[eventIndex]; 
+  const event = events[eventIndex];
   const newDate = new Date(weekStart);
   newDate.setDate(weekStart.getDate() + newDay);
+
+  const oldStartTime = event.startDate.split(":");
+  const oldEndTime = event.endDate.split(":");
+  const oldStartHour = parseInt(oldStartTime[0]);
+  const oldEndHour = parseInt(oldEndTime[0]);
+  const oldStartMinute = parseInt(oldStartTime[1]);
+  const oldEndMinute = parseInt(oldEndTime[1]);
 }
 renderHours();
 renderWeekHeader();
