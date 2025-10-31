@@ -75,6 +75,8 @@ function renderHours() {
       cell.setAttribute("data-hour", h);
 
       cell.addEventListener('dragover', handleDragstart);
+      cell.addEventListener('drop', handleDrop);
+
       row.appendChild(cell);
     }
 
