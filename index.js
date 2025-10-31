@@ -459,7 +459,12 @@ document.getElementById('searchInput').addEventListener('input', (e) => {
     eventItems.forEach(eventDiv => {
       eventDiv.style.display = '';
     });
-  } 
+  } else {
+    eventItems.forEach(eventDiv => {
+      const clientName = eventDiv.textContent.toLowerCase();
+     
+    });
+  }
 });
 
 
