@@ -289,6 +289,13 @@ function showDetails(event) {
     popup.remove();
   });
 
+  document.getElementById("deleteEventBtn").addEventListener("click", () => {
+    if (confirm("Are you sure you want to delete this event?")) {
+      deleteEvent(event.id);
+      popup.remove();
+      displayEvents();
+    }
+  });
 
   document.getElementById("editEventForm").onsubmit = (e) => {
     e.preventDefault();
@@ -327,7 +334,12 @@ function updateEvent(updatedEvent) {
   }
 }
 
-
+function deleteEvent(eventId) {
+  let events = JSON.parse(localStorage.getItem("events")) || [];
+  events = events.filter((e) => e.id !== eventId);
+  localStorage.setItem("events", JSON.stringify(events));
+  console.log("Event deleted successfully!");
+}
 
 renderHours();
 renderWeekHeader();
