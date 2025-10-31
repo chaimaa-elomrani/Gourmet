@@ -85,6 +85,8 @@ function renderHours() {
     calendarBody.appendChild(row);
   }
 }
+
+
 document.getElementById("nextWeek").addEventListener("click", () => {
   weekStart.setDate(weekStart.getDate() + 7);
   renderWeekHeader();
@@ -112,6 +114,8 @@ modal.addEventListener("click", (e) => {
     document.getElementById("eventForm").reset();
   }
 });
+
+
 
 function addEvent(event) {
   let events = JSON.parse(localStorage.getItem("events")) || [];
@@ -446,6 +450,14 @@ function handleDrop(e) {
   
   return false;
 }
+
+document.getElementById('searchInput').addEventListener('input', (e) => {
+ 
+});
+
+
+
+
 
 renderHours();
 renderWeekHeader();
