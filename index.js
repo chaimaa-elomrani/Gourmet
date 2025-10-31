@@ -359,6 +359,7 @@ function handleDragstart(e){
 function handleDragsEnd(e){
   e.target.style.opacity = '1';
   document.querySelectorAll('.drag-over').forEach(cell =>{
+    cell.classList.remove('drag-over');
   })
 
 }
