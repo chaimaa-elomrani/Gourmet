@@ -387,6 +387,10 @@ function handleDrop(e) {
 
   const targetCell = e.currentTarget; 
   const newDay = parseInt(targetCell.getAttribute('data-day')); 
+
+    if (newDay === 0 || newDay === 6) {
+   
+  }
 }
 renderHours();
 renderWeekHeader();
