@@ -351,6 +351,7 @@ function deleteEvent(eventId) {
 // dragganddrop 
 let dragedEventId = null ; 
 function handleDragstart(e){
+    dragedEventId = e.target.getAttribute('data-event-id'); 
     
 }
 
