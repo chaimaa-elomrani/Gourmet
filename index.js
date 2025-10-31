@@ -382,7 +382,8 @@ function handleDragLeave(e) {
 }
 
 function handleDrop(e) {
-    e.preventDefault();
+  e.preventDefault();
+  e.stopPropagation();
 }
 renderHours();
 renderWeekHeader();
