@@ -369,6 +369,11 @@ function handleDragOver(e){
     return false; 
 }
 
+function handleDragEnter(e){
+    
+}
+
+
 renderHours();
 renderWeekHeader();
 displayEvents();
