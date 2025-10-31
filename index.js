@@ -370,8 +370,10 @@ function handleDragOver(e) {
 
 function handleDragEnter(e) {
   const dayIndex = parseInt(e.currentTarget.getAttribute("data-day"));
-    if (dayIndex === 0 || dayIndex === 6) {
-    }
+  if (dayIndex === 0 || dayIndex === 6) {
+    e.dataTransfer.dropEffect = "none";
+    return ; 
+  }
 }
 
 renderHours();
