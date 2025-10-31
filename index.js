@@ -190,6 +190,7 @@ function displayEvents() {
         eventDiv.textContent = `${event.client}`; 
 
         eventDiv.addEventListener('dragstart', handleDragstart);
+        eventDiv.addEventListener('dragend', handleDragsEnd);
 
         cell.appendChild(eventDiv);
       }
