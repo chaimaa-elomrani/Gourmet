@@ -420,6 +420,11 @@ function handleDrop(e) {
     const newStartHour = newHour;
   let newEndHour = newHour + durationHours;
   let newEndMinute = oldStartMinute + durationMinutes;
+
+  if (newEndMinute >= 60) {
+    newEndHour += 1;
+    newEndMinute -= 60;
+  }
 }
 renderHours();
 renderWeekHeader();
