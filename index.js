@@ -372,12 +372,13 @@ function handleDragEnter(e) {
   const dayIndex = parseInt(e.currentTarget.getAttribute("data-day"));
   if (dayIndex === 0 || dayIndex === 6) {
     e.dataTransfer.dropEffect = "none";
-    return ; 
+    return;
   }
-    e.currentTarget.classList.add('drag-over');
+  e.currentTarget.classList.add("drag-over");
 }
 
 function handleDragLeave(e) {
+  e.currentTarget.classList.remove("drag-over");
 }
 
 renderHours();
