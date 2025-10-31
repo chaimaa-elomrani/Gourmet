@@ -381,6 +381,9 @@ function handleDragLeave(e) {
   e.currentTarget.classList.remove("drag-over");
 }
 
+function handleDrop(e) {
+    e.preventDefault();
+}
 renderHours();
 renderWeekHeader();
 displayEvents();
