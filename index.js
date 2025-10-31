@@ -462,7 +462,11 @@ document.getElementById('searchInput').addEventListener('input', (e) => {
   } else {
     eventItems.forEach(eventDiv => {
       const clientName = eventDiv.textContent.toLowerCase();
-     
+      if (clientName.includes(searchValue)) {
+        eventDiv.style.display = '';
+      } else {
+        eventDiv.style.display = 'none';
+      }
     });
   }
 });
