@@ -165,6 +165,8 @@ function displayEvents() {
   document.querySelectorAll(".event-item").forEach((el) => el.remove());
 
   const events = JSON.parse(localStorage.getItem("events")) || [];
+  
+  const eventsByCell = {};
 
   events.forEach((event) => {
     const eventDate = new Date(event.eventDate);
@@ -178,20 +180,48 @@ function displayEvents() {
     weekStartCopy.setHours(0, 0, 0, 0);
 
     if (eventDate >= weekStartCopy && eventDate <= weekEnd) {
-      const cell = document.querySelector(
-        `[data-day="${dayOfWeek}"][data-hour="${startHour}"]`
-      );
+      const cellKey = `${dayOfWeek}-${startHour}`;
+      if (!eventsByCell[cellKey]) {
+        eventsByCell[cellKey] = [];
+      }
+      eventsByCell[cellKey].push(event);
+    }
+  });
 
-      if (cell) {
+  Object.keys(eventsByCell).forEach(cellKey => {
+    const [dayOfWeek, startHour] = cellKey.split('-');
+    const cell = document.querySelector(
+      `[data-day="${dayOfWeek}"][data-hour="${startHour}"]`
+    );
+
+    if (cell) {
+      const eventsInCell = eventsByCell[cellKey];
+      const eventCount = eventsInCell.length;
+      
+      eventsInCell.forEach((event, index) => {
         const eventDiv = document.createElement("div");
-        eventDiv.className = `event-item absolute inset-1 ${getTypeColor(
+        
+        const widthPercent = 100 / eventCount;
+        const leftPercent = (100 / eventCount) * index;
+        
+        eventDiv.className = `event-item absolute top-1 bottom-1 ${getTypeColor(
           event.type
-        )} text-white text-[10px] sm:text-xs p-1 rounded shadow overflow-hidden cursor-move hover:opacity-90`;
+        )} text-white text-[9px] sm:text-xs p-1.5 rounded-lg shadow-md overflow-hidden cursor-move hover:shadow-lg hover:z-10 transition-all duration-200`;
+        
+        eventDiv.style.left = `${leftPercent}%`;
+        eventDiv.style.width = `calc(${widthPercent}% - ${eventCount > 1 ? '4px' : '8px'})`;
+        if (index < eventCount - 1) {
+          eventDiv.style.marginRight = '4px';
+        }
         
         eventDiv.draggable = true;
         eventDiv.setAttribute('data-event-id', event.id);
         
-        eventDiv.textContent = `${event.client}`;
+        eventDiv.innerHTML = `
+          <div class="font-semibold truncate mb-0.5">${event.client}</div>
+          <div class="text-[8px] sm:text-[10px] opacity-90">${event.startDate} - ${event.endDate}</div>
+          <div class="text-[8px] sm:text-[10px] opacity-75 mt-0.5">${event.members} people</div>
+        `;
         
         // Add drag event listeners
         eventDiv.addEventListener('dragstart', handleDragStart);
@@ -202,7 +232,7 @@ function displayEvents() {
         });
         
         cell.appendChild(eventDiv);
-      }
+      });
     }
   });
 }
