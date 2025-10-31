@@ -74,9 +74,9 @@ function renderHours() {
       cell.setAttribute("data-day", d);
       cell.setAttribute("data-hour", h);
 
-      cell.addEventListener('dragover', handleDragstart);
+      cell.addEventListener('dragover', handleDragOver);
       cell.addEventListener('drop', handleDrop);
-      cell.addEventListener('draggenter', handleDragEnter);
+      cell.addEventListener('dragenter', handleDragEnter);
       cell.addEventListener('dragLeave', handleDragLeave);
 
       row.appendChild(cell);
@@ -360,10 +360,12 @@ function handleDragsEnd(e){
   e.target.style.opacity = '1';
   document.querySelectorAll('.drag-over').forEach(cell =>{
     cell.classList.remove('drag-over');
-  })
-
+  });
 }
 
+function handleDragOver(e){
+  
+}
 
 renderHours();
 renderWeekHeader();
