@@ -383,9 +383,10 @@ function handleDragLeave(e) {
 
 function handleDrop(e) {
   e.preventDefault();
-  e.stopPropagation();
+  e.stopPropagation();parseInt(targetCell.getAttribute('data-day')); 
 
   const targetCell = e.currentTarget; 
+  const newDay = parseInt(targetCell.getAttribute('data-day')); 
 }
 renderHours();
 renderWeekHeader();
