@@ -454,7 +454,12 @@ function handleDrop(e) {
 document.getElementById('searchInput').addEventListener('input', (e) => {
   const searchValue = e.target.value.toLowerCase().trim();
   const eventItems = document.querySelectorAll('.event-item');
-
+  
+  if (searchValue === '') {
+    eventItems.forEach(eventDiv => {
+      eventDiv.style.display = '';
+    });
+  } 
 });
 
 
