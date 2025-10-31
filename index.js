@@ -365,7 +365,7 @@ function handleDragsEnd(e){
 
 function handleDragOver(e){
     e.preventDefault(); 
-   
+    e.dataTransfer.dropEffect = 'move'; 
 }
 
 renderHours();
