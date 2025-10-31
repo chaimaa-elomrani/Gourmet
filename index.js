@@ -390,7 +390,8 @@ function handleDrop(e) {
 
     if (newDay === 0 || newDay === 6) {
     alert("You cannot move events to Sunday or Saturday.");
-
+    targetCell.classList.remove('drag-over');
+    return false;
   }
 }
 renderHours();
