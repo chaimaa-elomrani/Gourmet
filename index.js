@@ -17,7 +17,7 @@ const monthNames = [
   "December",
 ];
 const dayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-const workDays = [1,2,3,4,5];
+
 function renderWeekHeader() {
   const weekDates = [];
   for (let i = 0; i < 7; i++) {
@@ -26,8 +26,7 @@ function renderWeekHeader() {
     weekDates.push(date);
   }
 
-  workDays.forEach((date, index) => {
-    const dates = weekDates[dayIndex]; 
+  weekDates.forEach((date, index) => {
     const header = document.getElementById(`day${index}`);
     const isToday =
       date.toDateString() === new Date(2025, 10, 29).toDateString();
@@ -44,7 +43,7 @@ function renderWeekHeader() {
   });
 
   const endDate = new Date(weekDates[5]);
-  const startDate = new Date(weekDates[1])
+  const startDate = new Date(weekDates[1]);
   document.getElementById("weekRange").textContent = ` ${
     monthNames[weekDates[0].getMonth()]
   } ${weekDates[0].getDate()} - ${
@@ -69,6 +68,7 @@ function renderHours() {
 
     for (let d = 0; d < 7; d++) {
       const cell = document.createElement("td");
+      const weekend = d === 0 || d === 6;
       cell.className =
         "border border-gray-200 h-12 sm:h-16 hover:bg-gray-50 transition duration-150 relative";
       cell.setAttribute("data-day", d);
@@ -119,11 +119,11 @@ eventForm.addEventListener("submit", function (e) {
   e.preventDefault();
 
   const eventDateValue = document.getElementById("eventDate").value;
-  const workdays = new Date(eventDateValue).getDay(); 
+  const workDays = new Date(eventDateValue).getDay();
 
-  if(workDays === 0 || workDays=== 6 ){
-     alert("You cannot create events on Sunday or Saturday.");
-    return ; 
+  if (workDays === 0 || workDays === 6) {
+    alert("You cannot create events on Sunday or Saturday.");
+    return;
   }
   const event = {
     id: Date.now(),
@@ -133,7 +133,7 @@ eventForm.addEventListener("submit", function (e) {
     endDate: document.getElementById("endDate").value,
     members: document.getElementById("members").value,
     type: document.getElementById("type").value,
-    dayIndex: new Date(eventDateValue).getDay(),
+    dayIndex: workDays,
   };
 
   addEvent(event);
