@@ -119,6 +119,12 @@ eventForm.addEventListener("submit", function (e) {
   e.preventDefault();
 
   const eventDateValue = document.getElementById("eventDate").value;
+  const workdays = new Date(eventDateValue).getDay(); 
+
+  if(workDays === 0 || workDays=== 6 ){
+     alert("You cannot create events on Sunday or Saturday.");
+    return ; 
+  }
   const event = {
     id: Date.now(),
     client: document.getElementById("clientName").value,
