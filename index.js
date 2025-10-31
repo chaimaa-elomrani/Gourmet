@@ -401,6 +401,8 @@ function handleDrop(e) {
     targetCell.classList.remove('drag-over');
     return false;
   }
+
+  const event = events[eventIndex]; 
 }
 renderHours();
 renderWeekHeader();
