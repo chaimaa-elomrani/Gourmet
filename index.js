@@ -375,7 +375,9 @@ function handleDragEnter(e) {
     return ; 
   }
     e.currentTarget.classList.add('drag-over');
+}
 
+function handleDragLeave(e) {
 }
 
 renderHours();
