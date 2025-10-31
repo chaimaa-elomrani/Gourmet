@@ -370,7 +370,8 @@ function handleDragOver(e){
 }
 
 function handleDragEnter(e){
-    
+      const dayIndex = parseInt(e.currentTarget.getAttribute('data-day'));
+
 }
 
 
