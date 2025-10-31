@@ -350,6 +350,9 @@ function deleteEvent(eventId) {
 
 // dragganddrop 
 let dragedEventId = null ; 
+function handleDragstart(e){
+    
+}
 
 
 renderHours();
