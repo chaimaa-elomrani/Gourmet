@@ -356,6 +356,10 @@ function handleDragstart(e){
       e.dataTransfer.effectAllowed = 'move'; 
 }
 
+function handleDragsEnd(e){
+    
+}
+
 
 renderHours();
 renderWeekHeader();
